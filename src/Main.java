@@ -1,9 +1,11 @@
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,6 +42,23 @@ public class Main {
         System.out.println(contactList);
 
         System.out.println("Welcome to the contacts update application");
+
+        System.out.println(contactList.size());
+
+
+
+
+
+//        String testValue = contactList.get(0);
+//        String[] arr = testValue.split("-", 2);
+////        System.out.println(arr);
+//        for (String a : arr) {
+//            System.out.println(a);
+//        }
+
+
+
+
 
 
         int testCondition = 0;
@@ -80,7 +99,21 @@ public class Main {
                     System.out.println();
                     break;
                 case 3:
-
+                    System.out.println("Please enter the name of the contact");
+                    String nameSearch = scanner.nextLine();
+                    for (int i = 0; i < contactList.size(); i++) {
+                        String currentIterationName = contactList.get(i);
+                        String[] correspondingArray = currentIterationName.split(" - ", 0);
+                        if (nameSearch.equalsIgnoreCase(correspondingArray[0])) {
+                            System.out.println("Phone number for " + nameSearch + " is " + correspondingArray[1]);
+                            break;
+                        }
+                        else if ((contactList.size() - 1) == i) {
+                            System.out.println("Name not found.");
+                            break;
+                        }
+                    }
+                    break;
                 case 4:
 
                 case 5:
