@@ -115,7 +115,21 @@ public class Main {
                     }
                     break;
                 case 4:
-
+                    System.out.println("What is the name of the contact that you would like to delete?");
+                    String userInput = scanner.nextLine();
+                    for (int i = 0; i < contactList.size(); i++) {
+                        String currentIterationName = contactList.get(i);
+                        String[] correspondingArray = currentIterationName.split(" - ", 0);
+                        if (userInput.equalsIgnoreCase(correspondingArray[0])) {
+                            contactList.remove(i);
+                            break;
+                        }
+                        else if ((contactList.size() - 1) == i) {
+                            System.out.println("Name not found.");
+                            break;
+                        }
+                    }
+                    break;
                 case 5:
                     System.out.println("Exiting the program.");
                     Files.write(filePath, contactList);
