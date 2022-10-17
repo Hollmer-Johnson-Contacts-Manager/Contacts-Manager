@@ -20,8 +20,10 @@ public class Main {
     private static Path dataFile = Paths.get(directory, fileName);
     private static Path filePath = Paths.get(currentDirectory, directory, fileName);
 
+
     private static ArrayList<String> contactList = new ArrayList<>();
     //private static List<String> alreadyInTheFile = Files.readAllLines(filePath);
+
 
     public static void main(String[] args) throws IOException {
 
@@ -42,10 +44,7 @@ public class Main {
         }
 
         //Loop To Format Array Data In Console
-        for (String contact : contactList) {
-            String[] correspondingArray = contact.split(" : ", 0);
-            System.out.printf("%s: %s%n", correspondingArray[0], correspondingArray[1].replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)$2-$3"));
-        }
+        viewContacts();
 
 
         System.out.printf("%nWelcome to the contacts update application");
@@ -70,50 +69,24 @@ public class Main {
                     //View Contacts List
                     viewContacts();
                     break;
-
                 case 2:
                     //Add Contact
                     addContact();
                     break;
-
                 case 3:
                     //Search Contact
-//                    System.out.println("Please enter the name of the contact");
-//                    String nameSearch = scanner.nextLine();
-//                    for (int i = 0; i < contactList.size(); i++) {
-//                        String currentIterationName = contactList.get(i);
-//                        String[] correspondingArray = currentIterationName.split(" : ", 0);
-//                        if (nameSearch.equalsIgnoreCase(correspondingArray[0])) {
-//                            System.out.printf("Phone number for %s is %s%n", nameSearch, correspondingArray[1].replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3"));
-//                            break;
-//                        }
-//                        else if ((contactList.size() - 1) == i) {
-//                            System.out.printf("%s not found.", nameSearch);
-//                            break;
-//                        }
-//                    }
+                    searchContact();
                     break;
                 case 4:
                     //Delete Contact
-                    System.out.println("What is the name of the contact that you would like to delete?");
-                    String userInput = scanner.nextLine();
-                    for (int i = 0; i < contactList.size(); i++) {
-                        String currentIterationName = contactList.get(i);
-                        String[] correspondingArray = currentIterationName.split(" - ", 0);
-                        if (userInput.equalsIgnoreCase(correspondingArray[0])) {
-                            contactList.remove(i);
-                            break;
-                        }
-                        else if ((contactList.size() - 1) == i) {
-                            System.out.printf("%s not found.", userInput);
-                            break;
-                        }
-                    }
+                    deleteContact();
                     break;
                 case 5:
                     //Exit App
                     System.out.println("Exiting the program.");
                     Files.write(filePath, contactList);
+
+                    // This is to break out of the loop.
                     testCondition += 1;
             }
         }
@@ -136,15 +109,26 @@ public class Main {
         System.out.println();
     }
 
-    private static void addContact(){
+    private static void addContact() {
         System.out.println("Please enter the name of your new contact.");
         String contactName = scanner.nextLine();
         System.out.println("Please enter the phone number of your new contact.");
-        String contactNumber = scanner.nextLine();
+        String contactNumber = collectNumber();
         Contact newContact = new Contact(contactName, contactNumber);
         contactList.add(newContact.getName() + " : " + newContact.getPhoneNumber());
         System.out.printf("%s added to contacts%n", contactName);
     }
+
+    private static String collectNumber() {
+        String contactNumber = scanner.nextLine();
+        if (contactNumber.length() != 10) {
+            System.out.println("Please enter a phone number that's exactly 10 digits in length.");
+            scanner.nextLine();
+            collectNumber();
+        }
+        return contactNumber;
+    }
+
     private static void searchContact(){
         System.out.println("Please enter the name of the contact");
         String nameSearch = scanner.nextLine();
@@ -158,6 +142,20 @@ public class Main {
             else if ((contactList.size() - 1) == i) {
                 System.out.printf("%s not found.", nameSearch);
                 break;
+            }
+        }
+    }
+    private static void deleteContact() {
+        System.out.println("What is the name of the contact that you would like to delete?");
+        String userInput = scanner.nextLine();
+        for (int i = 0; i < contactList.size(); i++) {
+            String currentIterationName = contactList.get(i);
+            String[] correspondingArray = currentIterationName.split(" : ", 0);
+            if (userInput.equalsIgnoreCase(correspondingArray[0])) {
+                contactList.remove(i);
+            }
+            else if ((contactList.size() - 1) == i) {
+                System.out.printf("%s not found.", userInput);
             }
         }
     }
