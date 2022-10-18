@@ -58,7 +58,13 @@ public class Main {
             // User enters what they would like to do, recursion used to correct user errors.
             try {
                 int userChoice = scanner.nextInt();
-
+                while (userChoice <= 0 || userChoice >= 6) {
+                    System.out.println();
+                    System.out.println("Enter a number between 1 and 5");
+                    userOptions();
+                    scanner.nextLine();
+                    userChoice = scanner.nextInt();
+                }
                 // Clearing out the scanner.
                 scanner.nextLine();
 
@@ -88,6 +94,7 @@ public class Main {
                         testCondition += 1;
                 }
             } catch (Exception e) {
+                System.out.println();
                 System.out.println("Enter a number between 1 and 5.");
                 scanner.nextLine();
             }
@@ -125,25 +132,26 @@ public class Main {
         String contactNumber = scanner.nextLine();
         if (contactNumber.length() != 10) {
             System.out.println("Please enter a phone number that's exactly 10 digits in length.");
-            scanner.nextLine();
             collectNumber();
         }
         return contactNumber;
     }
 
     private static void searchContact(){
-        System.out.println("Please enter the name of the contact");
+        System.out.println("Please enter the name of the contact, or just press enter to return to main menu.");
         String nameSearch = scanner.nextLine();
-        for (int i = 0; i < contactList.size(); i++) {
-            String currentIterationName = contactList.get(i);
-            String[] correspondingArray = currentIterationName.split(" : ", 0);
-            if (nameSearch.equalsIgnoreCase(correspondingArray[0])) {
-                System.out.printf("Phone number for %s is %s%n", nameSearch, correspondingArray[1].replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3"));
-                break;
-            }
-            else if ((contactList.size() - 1) == i) {
-                System.out.printf("%s not found.", nameSearch);
-                break;
+        if (!nameSearch.equals("")) {
+            for (int i = 0; i < contactList.size(); i++) {
+                String currentIterationName = contactList.get(i);
+                String[] correspondingArray = currentIterationName.split(" : ", 0);
+                if (nameSearch.equalsIgnoreCase(correspondingArray[0])) {
+                    System.out.printf("Phone number for %s is %s%n", nameSearch, correspondingArray[1].replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3"));
+                    break;
+                } else if ((contactList.size() - 1) == i) {
+                    System.out.printf("%s not found.", nameSearch);
+                    System.out.println();
+                    searchContact();
+                }
             }
         }
     }
@@ -155,6 +163,8 @@ public class Main {
             String[] correspondingArray = currentIterationName.split(" : ", 0);
             if (userInput.equalsIgnoreCase(correspondingArray[0])) {
                 contactList.remove(i);
+                System.out.printf("%s deleted from contacts.", userInput);
+                System.out.println();
             }
             else if ((contactList.size() - 1) == i) {
                 System.out.printf("%s not found.", userInput);
