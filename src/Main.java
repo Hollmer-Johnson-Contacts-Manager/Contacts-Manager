@@ -56,38 +56,40 @@ public class Main {
             userOptions();
 
             // User enters what they would like to do, recursion used to correct user errors.
-            int userChoice = scanner.nextInt();
-            while (userChoice < 1 || userChoice > 5) {
-                System.out.println("Please enter a number between 1 and 5");
-                userChoice = scanner.nextInt();
-            }
-            // Clearing out the scanner.
-            scanner.nextLine();
+            try {
+                int userChoice = scanner.nextInt();
 
-            switch (userChoice) {
-                case 1:
-                    //View Contacts List
-                    viewContacts();
-                    break;
-                case 2:
-                    //Add Contact
-                    addContact();
-                    break;
-                case 3:
-                    //Search Contact
-                    searchContact();
-                    break;
-                case 4:
-                    //Delete Contact
-                    deleteContact();
-                    break;
-                case 5:
-                    //Exit App
-                    System.out.println("Exiting the program.");
-                    Files.write(filePath, contactList);
+                // Clearing out the scanner.
+                scanner.nextLine();
 
-                    // This is to break out of the loop.
-                    testCondition += 1;
+                switch (userChoice) {
+                    case 1:
+                        //View Contacts List
+                        viewContacts();
+                        break;
+                    case 2:
+                        //Add Contact
+                        addContact();
+                        break;
+                    case 3:
+                        //Search Contact
+                        searchContact();
+                        break;
+                    case 4:
+                        //Delete Contact
+                        deleteContact();
+                        break;
+                    case 5:
+                        //Exit App
+                        System.out.println("Exiting the program.");
+                        Files.write(filePath, contactList);
+
+                        // This is to break out of the loop.
+                        testCondition += 1;
+                }
+            } catch (Exception e) {
+                System.out.println("Enter a number between 1 and 5.");
+                scanner.nextLine();
             }
         }
     }
