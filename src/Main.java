@@ -122,19 +122,14 @@ public class Main {
         System.out.println("Please enter the name of your new contact.");
         String contactName = scanner.nextLine();
         System.out.println("Please enter the phone number of your new contact.");
-        String contactNumber = collectNumber();
+        String contactNumber = scanner.nextLine();
+        while (contactNumber.length() != 10) {
+            System.out.println("Please enter a number that's exactly 10 digits long.");
+            contactNumber = scanner.nextLine();
+        }
         Contact newContact = new Contact(contactName, contactNumber);
         contactList.add(newContact.getName() + " : " + newContact.getPhoneNumber());
         System.out.printf("%s added to contacts%n", contactName);
-    }
-
-    private static String collectNumber() {
-        String contactNumber = scanner.nextLine();
-        if (contactNumber.length() != 10) {
-            System.out.println("Please enter a phone number that's exactly 10 digits in length.");
-            collectNumber();
-        }
-        return contactNumber;
     }
 
     private static void searchContact(){
